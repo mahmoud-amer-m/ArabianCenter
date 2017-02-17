@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  RegisterViewController.h
 //  ArabianCenter
 //
 //  Created by MacBookPro on 5/20/1438 AH.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface RegisterViewController : UIViewController
 
 @end
-
