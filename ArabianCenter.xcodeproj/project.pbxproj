@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4ED11715F72F5855A0A65543 /* libPods-ArabianCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7078BFE0DB3F16B166EB688B /* libPods-ArabianCenter.a */; };
 		5284049E1E570E43001B8524 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5284049D1E570E43001B8524 /* main.m */; };
 		528404A11E570E43001B8524 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 528404A01E570E43001B8524 /* AppDelegate.m */; };
 		528404A41E570E43001B8524 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 528404A31E570E43001B8524 /* ViewController.m */; };
 		528404A71E570E43001B8524 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 528404A51E570E43001B8524 /* Main.storyboard */; };
 		528404A91E570E43001B8524 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 528404A81E570E43001B8524 /* Assets.xcassets */; };
 		528404AC1E570E43001B8524 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 528404AA1E570E43001B8524 /* LaunchScreen.storyboard */; };
+		528404B41E570EBF001B8524 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 528404B31E570EBF001B8524 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		528404A81E570E43001B8524 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		528404AB1E570E43001B8524 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		528404AD1E570E43001B8524 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		528404B31E570EBF001B8524 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5FE6EB656500BFA98471B1CC /* Pods-ArabianCenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.debug.xcconfig"; sourceTree = "<group>"; };
+		7078BFE0DB3F16B166EB688B /* libPods-ArabianCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ArabianCenter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F02764D0844607FB3DFA3CF1 /* Pods-ArabianCenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.release.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +39,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ED11715F72F5855A0A65543 /* libPods-ArabianCenter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3FD447DF2C2AEFBF56783E45 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5FE6EB656500BFA98471B1CC /* Pods-ArabianCenter.debug.xcconfig */,
+				F02764D0844607FB3DFA3CF1 /* Pods-ArabianCenter.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		528404901E570E42001B8524 = {
 			isa = PBXGroup;
 			children = (
 				5284049B1E570E43001B8524 /* ArabianCenter */,
 				5284049A1E570E43001B8524 /* Products */,
+				3FD447DF2C2AEFBF56783E45 /* Pods */,
+				AFAF10C9B2647F39A0B10969 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +84,7 @@
 				528404A81E570E43001B8524 /* Assets.xcassets */,
 				528404AA1E570E43001B8524 /* LaunchScreen.storyboard */,
 				528404AD1E570E43001B8524 /* Info.plist */,
+				528404B31E570EBF001B8524 /* GoogleService-Info.plist */,
 				5284049C1E570E43001B8524 /* Supporting Files */,
 			);
 			path = ArabianCenter;
@@ -79,6 +98,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		AFAF10C9B2647F39A0B10969 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7078BFE0DB3F16B166EB688B /* libPods-ArabianCenter.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +113,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 528404B01E570E43001B8524 /* Build configuration list for PBXNativeTarget "ArabianCenter" */;
 			buildPhases = (
+				A32A28D4B4984B1E9FBFBD48 /* [CP] Check Pods Manifest.lock */,
 				528404951E570E43001B8524 /* Sources */,
 				528404961E570E43001B8524 /* Frameworks */,
 				528404971E570E43001B8524 /* Resources */,
+				F4C3CB47BE079AD0B4B6EFCC /* [CP] Embed Pods Frameworks */,
+				547101BF48CA566ED12F82C8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -139,12 +169,61 @@
 			buildActionMask = 2147483647;
 			files = (
 				528404AC1E570E43001B8524 /* LaunchScreen.storyboard in Resources */,
+				528404B41E570EBF001B8524 /* GoogleService-Info.plist in Resources */,
 				528404A91E570E43001B8524 /* Assets.xcassets in Resources */,
 				528404A71E570E43001B8524 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		547101BF48CA566ED12F82C8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A32A28D4B4984B1E9FBFBD48 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F4C3CB47BE079AD0B4B6EFCC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		528404951E570E43001B8524 /* Sources */ = {
@@ -269,6 +348,7 @@
 		};
 		528404B11E570E43001B8524 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FE6EB656500BFA98471B1CC /* Pods-ArabianCenter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Y26C7GHNEV;
@@ -281,6 +361,7 @@
 		};
 		528404B21E570E43001B8524 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F02764D0844607FB3DFA3CF1 /* Pods-ArabianCenter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Y26C7GHNEV;
