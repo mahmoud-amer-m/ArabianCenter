@@ -8,11 +8,35 @@
 /* Class = "UIButton"; normalTitle = "Claim An Offer"; ObjectID = "66f-8t-5Iv"; */
 "66f-8t-5Iv.normalTitle" = "أحصل على العرض";
 
+/* Class = "UILabel"; text = "Email"; ObjectID = "Hsa-dN-WUW"; */
+"Hsa-dN-WUW.text" = "الإيميل";
+
+/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "HyW-18-VXx"; */
+"HyW-18-VXx.normalTitle" = "تسجيل";
+
 /* Class = "UILabel"; text = "The Arabian Center"; ObjectID = "JJr-7z-65B"; */
 "JJr-7z-65B.text" = "المركز العربي";
 
+/* Class = "UIButton"; normalTitle = "Capture"; ObjectID = "Jpt-mR-wA6"; */
+"Jpt-mR-wA6.normalTitle" = "صور";
+
 /* Class = "UIButton"; normalTitle = "Sign Out"; ObjectID = "Jzf-y8-L2x"; */
 "Jzf-y8-L2x.normalTitle" = "تسجيل خروج";
+
+/* Class = "UIButton"; normalTitle = "Back"; ObjectID = "LPh-IK-gJ2"; */
+"LPh-IK-gJ2.normalTitle" = "رجوع";
+
+/* Class = "UIButton"; normalTitle = "Back"; ObjectID = "OTc-GO-wWu"; */
+"OTc-GO-wWu.normalTitle" = "رجوع";
+
+/* Class = "UIButton"; normalTitle = "Tweet"; ObjectID = "R9M-ob-Imw"; */
+"R9M-ob-Imw.normalTitle" = "شارك على تويتر";
+
+/* Class = "UILabel"; text = "Confirm Password"; ObjectID = "ath-fO-pmL"; */
+"ath-fO-pmL.text" = "تأكيد كلمة المرور";
+
+/* Class = "UILabel"; text = "Password"; ObjectID = "aw9-Ax-qlV"; */
+"aw9-Ax-qlV.text" = "كلمة المرور";
 
 /* Class = "UIButton"; normalTitle = "Ar"; ObjectID = "gfz-xh-6HE"; */
 "gfz-xh-6HE.normalTitle" = "EN";

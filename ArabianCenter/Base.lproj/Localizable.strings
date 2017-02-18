@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  ArabianCenter
+
+  Created by MacBookPro on 5/22/1438 AH.
+  Copyright © 1438 Amer. All rights reserved.
+*/
+
+/*Sign in Controller*/
+"sign_in_wrong_msg_title" = "Something Wrong";
+"sign_in_wrong_msg_message" = "Something Wrong happened";
+
+"sign_in_data_error_title" = "Incorrect Data";
+"sign_in_data_error_message" = "Please, fill data properly";
+
+"change_language_title" = "Restart Needed";
+"change_language_message" = "Please restart the application to switch the language";
+
+
+/*Register Controller*/
+/*TO DO*/
+
+
+/*Capture Controller*/
+"real_device_title" = "Real Device Needed";
+"real_device_message" = "Use your real device, please";
+
+"status_label_loading_offer" = "Getting current offer";
+"status_label_loading_shopper_coupon" = "Getting your captured coupons";
+"status_label_coupon_ready_no_tweet" = "You have a coupon for the current offer, Tweet and claim";
+"status_label_coupon_ready_tweeted" = "You have a coupon for the current offer, Ready to claim";
+"status_label_coupon_not_captured" = "harry up, capture your copoun";
+"status_label_coupon_just_captured" = "Coupon is here, Please wait!";
+
+"alert_captured_before_title" = "Coupon captured before";
+"alert_captured_before_message" = "You captured this offer before";
+"alert_no_offers_title" = "No Available Offers";
+"alert_no_offers_message" = "No available offers for now";
+"alert_share_to_claim_title" = "Share To Claim";
+"alert_share_to_claim_message" = "Please tweet the coupon to claim your offer";

@@ -34,10 +34,10 @@
     
     //If running from simulatr, Show warning
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        [self showAlert:@"Use your real device" andMessage:@"Use your real device, please"];
+        [self showAlert:NSLocalizedString(@"real_device_title", @"real device needed") andMessage:NSLocalizedString(@"real_device_message", @"real device needed")];
     }
     //Status label text
-    self.messageLabel.text = @"Getting current offer";
+    self.messageLabel.text = NSLocalizedString(@"status_label_loading_offer", @"loading current offer");
     //Set offer captured th by the user to false
     userAlreadyCaptured = false;
     
@@ -70,15 +70,13 @@
                 NSLog(@"there's an available offer - %@ - %d - %@ - %@", offer.value[@"status"], [offer.value[@"remaining"] intValue], offer.value[@"remaining"], offer.key);
                 currentAvailableOffer = offer;
                 //Status label text
-                self.messageLabel.text = @"Getting your captured coupons";
+                self.messageLabel.text = NSLocalizedString(@"status_label_loading_shopper_coupon", @"getting shopper coupons");
                 [self getUserCoupons];
-            }else{
-                NSLog(@"No available offers");
-                [self hideLoadingView];
             }
         }
         
     } withCancelBlock:^(NSError * _Nonnull error) {
+        [self hideLoadingView];
         NSLog(@"error %@", error.localizedDescription);
     }];
     
@@ -128,18 +126,20 @@
         //Status label text
         if(userAlreadyCaptured){
             if([status isEqualToString:@"0"])
-                self.messageLabel.text = @"You have a coupon for the current offer, Tweet and claim";
+                self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_no_tweet", @"please tweet");
             else
-                self.messageLabel.text = @"You have a coupon for the current offer, Ready to claim";
+                self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
         
-        }else
-            self.messageLabel.text = @"harry up, capture your copoun";
+        }else{
+            self.captureBTN.enabled = YES;
+            self.messageLabel.text = NSLocalizedString(@"status_label_coupon_not_captured", @"please capture");
+        }
         //Hide loading View
-        self.loadingView.hidden = YES;
+        [self hideLoadingView];
     } withCancelBlock:^(NSError * _Nonnull error) {
         NSLog(@"error %@", error.localizedDescription);
         //Hide loading View
-        self.loadingView.hidden = YES;
+        [self hideLoadingView];
     }];
     
 }
@@ -154,10 +154,10 @@
             
             [self presentViewController:picker animated:YES completion:NULL];
         }else{
-            [self showAlert:@"Coupon captured before" andMessage:@"You captured this offer before"];
+            [self showAlert:NSLocalizedString(@"alert_captured_before_title", @"already captured") andMessage:NSLocalizedString(@"alert_captured_before_message", @"already captured")];
         }
     }else{
-        [self showAlert:@"No Available Offers" andMessage:@"No available offers for now."];
+        [self showAlert:NSLocalizedString(@"alert_no_offers_title", @"no offers") andMessage:NSLocalizedString(@"alert_no_offers_message", @"no offers")];
     }
     
     
@@ -201,7 +201,7 @@
 {
     NSLog(@"%@ ", AddedCouponID);
     //Status message
-    self.messageLabel.text = @"You have a coupon for the current offer, Ready to claim";
+    self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
     //Change coupon status to 1 (Means already shared on social media)
     [[[[ref child:@"captured_coupons"] child:AddedCouponID] child:@"status"] setValue:@"1"];
 }
@@ -259,7 +259,7 @@
                                                    }
                                                }];
     
-    [self showAlert:@"Share To Claim" andMessage:@"Please tweet the coupon to claim your offer"];
+    [self showAlert:NSLocalizedString(@"alert_share_to_claim_title", @"share 2 claim") andMessage:NSLocalizedString(@"alert_share_to_claim_message", @"share 2 claim")];
 }
 #pragma mark - Camera Delegate Methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -279,7 +279,7 @@
     [self updateDatabase];
     
     //Status label text
-    self.messageLabel.text = @"Coupon is here, Please wait!";
+    self.messageLabel.text = NSLocalizedString(@"status_label_coupon_just_captured", @"just_captured");
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     

@@ -64,7 +64,7 @@
                              }];
     }else{
         //Not valid inputs -- Show alert
-        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Incorrect Data" message:@"Please, fill data properly" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign_in_data_error_title", @"title") message:NSLocalizedString(@"sign_in_data_error_message", @"message") preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
                                                              style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                                                                  
@@ -83,7 +83,7 @@
     if(signedIn)
         [self performSegueWithIdentifier:@"HomeSegue" sender:nil];
     else{
-        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Something Wrong" message:@"Something Wrong happened" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign_in_wrong_msg_title", @"title") message:NSLocalizedString(@"sign_in_wrong_msg_message", @"message") preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
                                                              style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                                                                  
@@ -112,7 +112,13 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     NSLog(@"current Language: %@", [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0]);
-    
+    UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"change_language_title", @"title") message:NSLocalizedString(@"change_language_message", @"message") preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
+                                                         style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                             
+                                                         }];
+    [myAlertView addAction:doneAction];
+    [self presentViewController:myAlertView animated:YES completion:nil];
 }
 
 #pragma mark - Textfields delegate

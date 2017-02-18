@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  ArabianCenter
+
+  Created by MacBookPro on 5/22/1438 AH.
+  Copyright © 1438 Amer. All rights reserved.
+*/
+
+/*Sign in Controller*/
+"sign_in_wrong_msg_title" = "يوجد خطأ";
+"sign_in_wrong_msg_message" = "حدث خطأ، برجاء إعادة المحاولة";
+
+"sign_in_data_error_title" = "بيانات خاطئة";
+"sign_in_data_error_message" = "برجاء إدخال البيانات بطريقة صحيحة";
+
+"change_language_title" = "إعادة تشغيل التطبيق";
+"change_language_message" = "برجاء إعادة تشغيل التطبيق لتغيير اللغة";
+
+/*Register Controller*/
+/*TO DO*/
+
+
+/*Capture Controller*/
+"real_device_title" = "برجاء استخدام جهاز ايفون";
+"real_device_message" = "برجاء استخدام جوال ايفون";
+
+"status_label_loading_offer" = "تحميل العرض الحالي";
+"status_label_loading_shopper_coupon" = "تحميل قسائم العميل";
+"status_label_coupon_ready_no_tweet" = "لديك قسيمة للعرض الحالي، شارك بتويتر للحصول على العرض";
+"status_label_coupon_ready_tweeted" = "لديك قسيمة جاهزة للتحصيل";
+"status_label_coupon_not_captured" = "أسرع و صور قسيمتك";
+"status_label_coupon_just_captured" = "تم تصوير القسيمة، برجاء الانتظار";
+
+"alert_captured_before_title" = "تم تصوير القسيمة من قبل";
+"alert_captured_before_message" = "لقد قمت بتصوير القسيمة سابقا";
+"alert_no_offers_title" = "لا يوجد عروض متاحة";
+"alert_no_offers_message" = "لا يوجد عروض متاحة حاليا";
+"alert_share_to_claim_title" = "شارك للحصول على العرض";
+"alert_share_to_claim_message" = "برجاء مشاركة القسيمة على تويتر للحصول على العرض";
+

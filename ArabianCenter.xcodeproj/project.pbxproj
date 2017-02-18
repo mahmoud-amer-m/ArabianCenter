@@ -22,6 +22,7 @@
 		528404CC1E5768ED001B8524 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528404CB1E5768ED001B8524 /* CoreLocation.framework */; };
 		5286C4991E579C1800D86535 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5286C4981E579C1800D86535 /* Social.framework */; };
 		5286C49B1E579C5D00D86535 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5286C49A1E579C5D00D86535 /* Bolts.framework */; };
+		528D29591E58FF2200BC2E0A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 528D295B1E58FF2200BC2E0A /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +41,6 @@
 		528404BA1E571019001B8524 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		528404BE1E571295001B8524 /* loginBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBackground.png; sourceTree = "<group>"; };
 		528404C11E5723E9001B8524 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		528404C31E572BD4001B8524 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		528404C41E572F21001B8524 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		528404C51E572F21001B8524 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		528404C81E574106001B8524 /* CaptureOfferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureOfferViewController.h; sourceTree = "<group>"; };
@@ -48,6 +48,9 @@
 		528404CB1E5768ED001B8524 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5286C4981E579C1800D86535 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		5286C49A1E579C5D00D86535 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		528D29561E58FD3100BC2E0A /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
+		528D295A1E58FF2200BC2E0A /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		528D295C1E58FF2E00BC2E0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FE6EB656500BFA98471B1CC /* Pods-ArabianCenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.debug.xcconfig"; sourceTree = "<group>"; };
 		7078BFE0DB3F16B166EB688B /* libPods-ArabianCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ArabianCenter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F02764D0844607FB3DFA3CF1 /* Pods-ArabianCenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.release.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +121,7 @@
 			children = (
 				528404BD1E571289001B8524 /* Images */,
 				5284049D1E570E43001B8524 /* main.m */,
+				528D295B1E58FF2200BC2E0A /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -234,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				528404AC1E570E43001B8524 /* LaunchScreen.storyboard in Resources */,
+				528D29591E58FF2200BC2E0A /* Localizable.strings in Resources */,
 				528404BF1E571295001B8524 /* loginBackground.png in Resources */,
 				528404B41E570EBF001B8524 /* GoogleService-Info.plist in Resources */,
 				528404A91E570E43001B8524 /* Assets.xcassets in Resources */,
@@ -312,7 +317,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				528404A61E570E43001B8524 /* Base */,
-				528404C31E572BD4001B8524 /* ar */,
+				528D29561E58FD3100BC2E0A /* ar */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -324,6 +329,15 @@
 				528404C11E5723E9001B8524 /* ar */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		528D295B1E58FF2200BC2E0A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				528D295A1E58FF2200BC2E0A /* ar */,
+				528D295C1E58FF2E00BC2E0A /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
