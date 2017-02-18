@@ -141,7 +141,6 @@
         //Hide loading View
         [self hideLoadingView];
     }];
-    
 }
 
 - (IBAction)captureOfferAction:(UIButton *)sender {
