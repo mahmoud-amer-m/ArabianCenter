@@ -34,13 +34,11 @@
     
     //If running from simulatr, Show warning
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        
-        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Use your real device" message:@"Use your real device, please!" preferredStyle:UIAlertControllerStyleAlert];
-        
-         [self presentViewController:myAlertView animated:YES completion:nil];
-        
+        [self showAlert:@"Use your real device" andMessage:@"Use your real device, please"];
     }
-    //Set offer captured by the user to false
+    //Status label text
+    self.messageLabel.text = @"Getting current offer";
+    //Set offer captured th by the user to false
     userAlreadyCaptured = false;
     
     currentAvailableOffer = nil;
@@ -65,18 +63,20 @@
     //Get the current offer (the offer that has status equals "1" and remaining coupons more than zero)
     [[ref child:@"Offers"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         // Get user value
-        
+        //Status label text
+        self.messageLabel.text = @"";
         for(FIRDataSnapshot *offer in snapshot.children) {
             if(([offer.value[@"status"] intValue] == 1) && !([[offer.value[@"remaining"] stringValue] isEqualToString:@"0"])){
                 NSLog(@"there's an available offer - %@ - %d - %@ - %@", offer.value[@"status"], [offer.value[@"remaining"] intValue], offer.value[@"remaining"], offer.key);
                 currentAvailableOffer = offer;
+                //Status label text
+                self.messageLabel.text = @"Getting your captured coupons";
                 [self getUserCoupons];
             }else{
                 NSLog(@"No available offers");
                 [self hideLoadingView];
             }
         }
-        
         
     } withCancelBlock:^(NSError * _Nonnull error) {
         NSLog(@"error %@", error.localizedDescription);
@@ -93,12 +93,12 @@
 {
     //Get the current offer (the offer that has status equals "1")
     [[ref child:@"captured_coupons"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-        // Get user value
+        NSString *status = 0;
         
         for(FIRDataSnapshot *offer in snapshot.children) {
 
             if(([offer.value[@"user_id"] isEqualToString:[NSString stringWithFormat:@"%@",user.uid]]) && ([offer.value[@"offer_id"] isEqualToString:currentAvailableOffer.key])){
-
+                //Shopper already captured a coupon for this offer before
                 userAlreadyCaptured = YES;
                 [self.capturedCouponLoadingIndicator startAnimating];
                 //Show current offer coupon image of the logged in user
@@ -121,9 +121,19 @@
                     }
                     [self.capturedCouponLoadingIndicator stopAnimating];
                 }];
-
+                //User coupon Status
+                status = offer.value[@"status"];
             }
         }
+        //Status label text
+        if(userAlreadyCaptured){
+            if([status isEqualToString:@"0"])
+                self.messageLabel.text = @"You have a coupon for the current offer, Tweet and claim";
+            else
+                self.messageLabel.text = @"You have a coupon for the current offer, Ready to claim";
+        
+        }else
+            self.messageLabel.text = @"harry up, capture your copoun";
         //Hide loading View
         self.loadingView.hidden = YES;
     } withCancelBlock:^(NSError * _Nonnull error) {
@@ -144,22 +154,10 @@
             
             [self presentViewController:picker animated:YES completion:NULL];
         }else{
-            UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Taked Before" message:@"You captured this offer before" preferredStyle:UIAlertControllerStyleActionSheet];
-            UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
-                                                                  style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                                                                      
-                                                                  }];
-            [myAlertView addAction:doneAction];
-            [self presentViewController:myAlertView animated:YES completion:nil];
+            [self showAlert:@"Coupon captured before" andMessage:@"You captured this offer before"];
         }
     }else{
-        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"No Offers" message:@"No available offers for now." preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
-                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                                                                 
-                                                             }];
-        [myAlertView addAction:doneAction];
-        [self presentViewController:myAlertView animated:YES completion:nil];
+        [self showAlert:@"No Available Offers" andMessage:@"No available offers for now."];
     }
     
     
@@ -201,6 +199,9 @@
 
 -(void)tweetSuccessful
 {
+    NSLog(@"%@ ", AddedCouponID);
+    //Status message
+    self.messageLabel.text = @"You have a coupon for the current offer, Ready to claim";
     //Change coupon status to 1 (Means already shared on social media)
     [[[[ref child:@"captured_coupons"] child:AddedCouponID] child:@"status"] setValue:@"1"];
 }
@@ -233,6 +234,8 @@
     AddedCouponID = key;
     [ref updateChildValues:childUpdates];
     [self getUserCoupons];
+    //Status label text
+    self.messageLabel.text = @"";
 }
 
 -(void)saveImage:(UIImage *)capturedImage{
@@ -256,9 +259,7 @@
                                                    }
                                                }];
     
-    UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Share To Claim" message:@"Please tweet the coupon to claim your offer" preferredStyle:UIAlertControllerStyleAlert];
-    
-    [self presentViewController:myAlertView animated:YES completion:nil];
+    [self showAlert:@"Share To Claim" andMessage:@"Please tweet the coupon to claim your offer"];
 }
 #pragma mark - Camera Delegate Methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -276,6 +277,9 @@
     
     //Update database
     [self updateDatabase];
+    
+    //Status label text
+    self.messageLabel.text = @"Coupon is here, Please wait!";
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
@@ -291,6 +295,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    
     currentLocation = newLocation;
 }
 
@@ -305,5 +310,18 @@
 }
 */
 
+
+-(void)showAlert:(NSString *)title andMessage:(NSString *)message{
+    if(!([title isEqualToString:@""]) && !([message isEqualToString:@""])){
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                 
+                                                             }];
+        [myAlertView addAction:doneAction];
+        [self presentViewController:myAlertView animated:YES completion:nil];
+    }
+    
+}
 
 @end

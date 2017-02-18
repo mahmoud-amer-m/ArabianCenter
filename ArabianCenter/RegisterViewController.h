@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RegisterViewController : UIViewController
+@import FirebaseDatabase;
+@import FirebaseAuth;
 
+@interface RegisterViewController : UIViewController {
+    
+}
+@property (weak, nonatomic) IBOutlet UITextField *emailTF;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
+@property (weak, nonatomic) IBOutlet UITextField *confirmPassTF;
+@property (weak, nonatomic) IBOutlet UIView *loadingView;
+
+- (IBAction)registerAction:(UIButton *)sender;
+- (IBAction)backAction:(UIButton *)sender;
 @end

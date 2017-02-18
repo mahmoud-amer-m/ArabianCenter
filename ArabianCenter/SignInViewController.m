@@ -26,10 +26,8 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    //If there's logged in user, go home
     if ([FIRAuth auth].currentUser) {
-        NSLog(@"logged User : %@", [FIRAuth auth].currentUser);
-        //        FIRUser *user = [FIRAuth auth].currentUser;
-        //        NSLog(@"email %@", user.providerData);
         [self performSegueWithIdentifier:@"HomeSegue" sender:nil];
     }
 }
@@ -50,27 +48,58 @@
 */
 
 - (IBAction)signInAction:(UIButton *)sender {
-    [self.loadingIndicator startAnimating];
-    [[FIRAuth auth] signInWithEmail:self.emailTF.text
-                           password:self.passwordTF.text
-                         completion:^(FIRUser *user, NSError *error) {
-                             NSLog(@"User : %@", user);
-                             NSLog(@"email %@", user.providerID);
-                             NSLog(@"error : %@", error);
-                             if(user && !error){
-                                 [self finishSignIn:YES];
-                             }else{
-                                 [self finishSignIn:NO];
-                             }
-                         }];
-    
+    //Validate TextFields
+    if([self validateTextFields]){
+        //Show loading indicator
+        [self.loadingIndicator startAnimating];
+        //Firebase Sign in
+        [[FIRAuth auth] signInWithEmail:self.emailTF.text
+                               password:self.passwordTF.text
+                             completion:^(FIRUser *user, NSError *error) {
+                                 if(user && !error){
+                                     [self finishSignIn:YES];
+                                 }else{
+                                     [self finishSignIn:NO];
+                                 }
+                             }];
+    }else{
+        //Not valid inputs -- Show alert
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Incorrect Data" message:@"Please, fill data properly" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                 
+                                                             }];
+        [myAlertView addAction:doneAction];
+        [self presentViewController:myAlertView animated:YES completion:nil];
+    }
 }
+
+//Method called after firebase sign in, taking BOOL parameter indicates loggedIn status
 -(void)finishSignIn:(BOOL)signedIn
 {
+    //Finish loading indicator
     [self.loadingIndicator stopAnimating];
+    //If right sign in, Go home
     if(signedIn)
         [self performSegueWithIdentifier:@"HomeSegue" sender:nil];
-    
+    else{
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Something Wrong" message:@"Something Wrong happened" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                 
+                                                             }];
+        [myAlertView addAction:doneAction];
+        [self presentViewController:myAlertView animated:YES completion:nil];
+    }
+        
+}
+-(BOOL)validateTextFields
+{
+    BOOL valid = FALSE;
+    if(!([self.emailTF.text isEqualToString:@""]) && !([self.passwordTF.text isEqualToString:@""])){
+        valid = TRUE;
+    }
+    return valid;
 }
 - (IBAction)changeLanguageAction:(UIButton *)sender {
     NSString *targetLanguage = @"";
@@ -84,10 +113,12 @@
     
     NSLog(@"current Language: %@", [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0]);
     
-    // Reload our root view controller
-    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    NSString *storyboardName = @"Main"; // Your storyboard name
-    UIStoryboard *storybaord = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
-    delegate.window.rootViewController = [storybaord instantiateInitialViewController];
+}
+
+#pragma mark - Textfields delegate
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
 }
 @end

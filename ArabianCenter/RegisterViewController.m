@@ -24,6 +24,69 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (IBAction)registerAction:(UIButton *)sender {
+    //Validate inputs
+    if([self validateTextFields]){
+        //Show loading indicator
+        self.loadingView.hidden = NO;
+        //Firebase registeration
+        [[FIRAuth auth]
+         createUserWithEmail:self.emailTF.text
+         password:self.passwordTF.text
+         completion:^(FIRUser *_Nullable user,
+                      NSError *_Nullable error) {
+             if(!error){
+                 NSLog(@"user created : %@", user);
+                 [self finishRegisteration:YES];
+             }else{
+                 NSLog(@"error: %@", error.localizedDescription);
+                 [self finishRegisteration:NO];
+             }
+         }];
+    }else{
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Incorrect Data" message:@"Please, fill data properly" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                 
+                                                             }];
+        [myAlertView addAction:doneAction];
+        [self presentViewController:myAlertView animated:YES completion:nil];
+    }
+}
+
+//Method called after firebase registeration, taking BOOL parameter indicates registeration response status
+-(void)finishRegisteration:(BOOL)registered
+{
+    //End loading indicator
+    self.loadingView.hidden = YES;
+    //If registered, Go home
+    if(registered){
+        [self performSegueWithIdentifier:@"homeAfterRegister" sender:nil];
+    }else{
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Something Wrong" message:@"Something Wrong happened" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                 
+                                                             }];
+        [myAlertView addAction:doneAction];
+        [self presentViewController:myAlertView animated:YES completion:nil];
+    }
+}
+//Method to validate inputs
+-(BOOL)validateTextFields
+{
+    BOOL valid = FALSE;
+    if(!([self.emailTF.text isEqualToString:@""]) && !([self.passwordTF.text isEqualToString:@""]) && !([self.confirmPassTF.text isEqualToString:@""])){
+        if([self.passwordTF.text isEqualToString:self.confirmPassTF.text])
+            valid = TRUE;
+    }
+    return valid;
+}
+
+- (IBAction)backAction:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 /*
 #pragma mark - Navigation
 
@@ -34,4 +97,10 @@
 }
 */
 
+#pragma mark - Textfields delegate
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
+}
 @end

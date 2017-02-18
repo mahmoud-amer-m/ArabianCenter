@@ -28,6 +28,7 @@
     
     NSString *AddedCouponID;
 }
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (weak, nonatomic) IBOutlet UIImageView *couponImgView;
