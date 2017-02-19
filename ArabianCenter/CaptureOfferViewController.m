@@ -31,6 +31,7 @@
     
     //Logged in user
     user = [FIRAuth auth].currentUser;
+//    [[MyManager sharedManager] getUserCoupons:user.uid];
     
     //If running from simulatr, Show warning
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -90,15 +91,16 @@
 -(void)getUserCoupons
 {
     //Get the current offer (the offer that has status equals "1")
-    [[ref child:@"captured_coupons"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+    [[[[ref child:@"captured_coupons"] queryOrderedByChild:@"user_id"] queryEqualToValue:user.uid] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         NSString *status = 0;
-        
-        for(FIRDataSnapshot *offer in snapshot.children) {
-
-            if(([offer.value[@"user_id"] isEqualToString:[NSString stringWithFormat:@"%@",user.uid]]) && ([offer.value[@"offer_id"] isEqualToString:currentAvailableOffer.key])){
-                //Shopper already captured a coupon for this offer before
-                userAlreadyCaptured = YES;
-                [self.capturedCouponLoadingIndicator startAnimating];
+        if((unsigned long)snapshot.childrenCount > 0){
+            userAlreadyCaptured = YES;
+            NSLog(@"taken");
+            //Shopper already captured a coupon for this offer before
+            userAlreadyCaptured = YES;
+            [self.capturedCouponLoadingIndicator startAnimating];
+            
+            for(FIRDataSnapshot *offer in snapshot.children) {
                 //Show current offer coupon image of the logged in user
                 // Points to the root reference
                 
@@ -121,19 +123,19 @@
                 }];
                 //User coupon Status
                 status = offer.value[@"status"];
+                //Status label text
+                if([status isEqualToString:@"0"])
+                    self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_no_tweet", @"please tweet");
+                else
+                    self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
             }
-        }
-        //Status label text
-        if(userAlreadyCaptured){
-            if([status isEqualToString:@"0"])
-                self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_no_tweet", @"please tweet");
-            else
-                self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
-        
         }else{
+            userAlreadyCaptured = NO;
             self.captureBTN.enabled = YES;
             self.messageLabel.text = NSLocalizedString(@"status_label_coupon_not_captured", @"please capture");
+            NSLog(@"no");
         }
+        
         //Hide loading View
         [self hideLoadingView];
     } withCancelBlock:^(NSError * _Nonnull error) {
@@ -198,7 +200,7 @@
 
 -(void)tweetSuccessful
 {
-    NSLog(@"%@ ", AddedCouponID);
+    NSLog(@"AddedCouponID : %@ ", AddedCouponID);
     //Status message
     self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
     //Change coupon status to 1 (Means already shared on social media)
@@ -224,13 +226,14 @@
     
     //Add new captured offer record
     //Create the coupon with status 0 (means still not shared on social media)
-    NSString *key = [[ref child:@"captured_coupons"] childByAutoId].key;
+    AddedCouponID = [[ref child:@"captured_coupons"] childByAutoId].key;
+
     NSDictionary *capturedOffer = @{@"user_id": user.uid,
                                     @"status": @"0",
                                     @"offer_id": currentAvailableOffer.key,
                                     @"location":[NSString stringWithFormat:@"%.8f,%.8f", currentLocation.coordinate.latitude, currentLocation.coordinate.longitude]};
-    NSDictionary *childUpdates = @{[@"/captured_coupons/" stringByAppendingString:key]: capturedOffer};
-    AddedCouponID = key;
+    NSDictionary *childUpdates = @{[@"/captured_coupons/" stringByAppendingString:AddedCouponID]: capturedOffer};
+
     [ref updateChildValues:childUpdates];
     [self getUserCoupons];
     //Status label text
@@ -255,6 +258,8 @@
                                                        NSLog(@"Error, Upload failed");
                                                    } else {
                                                        NSLog(@"uploaded : %@", metadata.contentType);
+                                                       //Update database
+                                                       [self updateDatabase];
                                                    }
                                                }];
     
@@ -273,9 +278,6 @@
     
     //Show loading View
     self.loadingView.hidden = NO;
-    
-    //Update database
-    [self updateDatabase];
     
     //Status label text
     self.messageLabel.text = NSLocalizedString(@"status_label_coupon_just_captured", @"just_captured");
