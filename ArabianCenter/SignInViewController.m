@@ -50,8 +50,8 @@
 - (IBAction)signInAction:(UIButton *)sender {
     //Validate TextFields
     if([self validateTextFields]){
-        //Show loading indicator
-        [self.loadingIndicator startAnimating];
+        //Show loading view
+        [self.loadingView setHidden:NO];
         //Firebase Sign in
         [[FIRAuth auth] signInWithEmail:self.emailTF.text
                                password:self.passwordTF.text
@@ -77,8 +77,9 @@
 //Method called after firebase sign in, taking BOOL parameter indicates loggedIn status
 -(void)finishSignIn:(BOOL)signedIn
 {
-    //Finish loading indicator
-    [self.loadingIndicator stopAnimating];
+    //Hide Loading View
+    [self.loadingView setHidden:YES];
+    
     //If right sign in, Go home
     if(signedIn)
         [self performSegueWithIdentifier:@"HomeSegue" sender:nil];

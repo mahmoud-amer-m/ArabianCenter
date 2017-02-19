@@ -45,7 +45,7 @@
              }
          }];
     }else{
-        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Incorrect Data" message:@"Please, fill data properly" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign_in_data_error_title", @"title") message:NSLocalizedString(@"sign_in_data_error_message", @"massage") preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
                                                              style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                                                                  
@@ -64,7 +64,7 @@
     if(registered){
         [self performSegueWithIdentifier:@"homeAfterRegister" sender:nil];
     }else{
-        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:@"Something Wrong" message:@"Something Wrong happened" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign_in_wrong_msg_title", @"title") message:NSLocalizedString(@"sign_in_wrong_msg_message", @"title") preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
                                                              style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
                                                                  

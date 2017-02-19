@@ -19,7 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTF;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTF;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+//@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+@property (weak, nonatomic) IBOutlet UIView *loadingView;
 
 
 - (IBAction)signInAction:(UIButton *)sender;

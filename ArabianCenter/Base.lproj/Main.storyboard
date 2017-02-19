@@ -102,16 +102,23 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="umM-pS-S4w">
-                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                            <view hidden="YES" alpha="0.69999998807907104" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C25-Xi-e9a">
+                                <rect key="frame" x="-1" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ruk-YP-fj5">
+                                        <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
                         <outlet property="emailTF" destination="9Zx-mo-shB" id="nwV-e1-2Yi"/>
-                        <outlet property="loadingIndicator" destination="umM-pS-S4w" id="evQ-X6-DWN"/>
+                        <outlet property="loadingView" destination="C25-Xi-e9a" id="nLK-C0-gcz"/>
                         <outlet property="passwordTF" destination="myi-vc-hFb" id="6gu-xF-yx4"/>
                         <segue destination="B1h-iA-2Xy" kind="presentation" identifier="HomeSegue" id="b8t-0u-LiG"/>
                     </connections>

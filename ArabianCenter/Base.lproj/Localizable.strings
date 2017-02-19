@@ -7,7 +7,7 @@
 */
 
 /*Sign in Controller*/
-"sign_in_wrong_msg_title" = "Something Wrong";
+"sign_in_wrong_msg_title" = "Something Went Wrong";
 "sign_in_wrong_msg_message" = "Something Wrong happened";
 
 "sign_in_data_error_title" = "Incorrect Data";
