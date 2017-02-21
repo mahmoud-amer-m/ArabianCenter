@@ -39,10 +39,10 @@
     //Status label text
     self.messageLabel.text = NSLocalizedString(@"status_label_loading_offer", @"loading current offer");
     //Set offer captured th by the user to false
-    userAlreadyCaptured = false;
-    
+    userAlreadyCaptured = NO;
     currentAvailableOffer = nil;
-    
+    userCapturedCoupon =nil;
+    //Call the method that git the current available offer
     [self getCurrentOffer];
     
 }
@@ -61,28 +61,33 @@
 -(void)getCurrentOffer
 {
     //Get the current offer (the offer that has status equals "1" and remaining coupons more than zero)
-    [[ref child:@"Offers"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+    [[[[ref child:@"Offers"] queryOrderedByChild:@"status"] queryEqualToValue:@"1"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         // Get user value
         //Status label text
         self.messageLabel.text = @"";
-        BOOL available = NO;
+
         if((unsigned long)snapshot.childrenCount > 0){
+            
             for(FIRDataSnapshot *offer in snapshot.children) {
-                if(([offer.value[@"status"] intValue] == 1) && !([[offer.value[@"remaining"] stringValue] isEqualToString:@"0"])){
-                    NSLog(@"there's an available offer - %@ - %d - %@ - %@", offer.value[@"status"], [offer.value[@"remaining"] intValue], offer.value[@"remaining"], offer.key);
-                    available = YES;
-                    [self finishGetCurrentOfferWithStatus:offer];
+                NSLog(@"loop - %@", offer.key);
+                //Check if this offer has remaining coupons
+                if(!([[offer.value[@"remaining"] stringValue] isEqualToString:@"0"])){
+                    NSLog(@"available offer key: %@", offer.key);
+                    currentAvailableOffer = offer;
+                    
+                    break;
                 }
             }
-            if(!available){
-                [self finishGetCurrentOfferWithStatus:nil];
-            }
+            //Call the function that update status message and will call get user coupons
+            [self finishGetCurrentOfferWithStatus:currentAvailableOffer];
         }else{
+            //Call the function that update status message
             [self finishGetCurrentOfferWithStatus:nil];
         }
         
         
     } withCancelBlock:^(NSError * _Nonnull error) {
+        //Call the function that update status message
         [self finishGetCurrentOfferWithStatus:nil];
         NSLog(@"error %@", error.localizedDescription);
     }];
@@ -92,10 +97,12 @@
 -(void)finishGetCurrentOfferWithStatus:(FIRDataSnapshot *)offer
 {
     if(offer){
-        currentAvailableOffer = offer;
+        //Set current available offer
+        
         //Status label text
         self.messageLabel.text = NSLocalizedString(@"status_label_loading_shopper_coupon", @"getting shopper coupons");
-        [self getUserCoupons];
+        //Call the function that will get current shopper coupons
+        [self getShopperCoupons];
     }else{
         //Status label text
         self.messageLabel.text = NSLocalizedString(@"status_label_no_current_offers", @"getting shopper coupons");
@@ -109,30 +116,30 @@
     [self.loadingView setHidden:YES];
 }
 #pragma mark - Get User Coupons
--(void)getUserCoupons
+-(void)getShopperCoupons
 {
     //Get the current offer (the offer that has status equals "1")
     [[[[ref child:@"captured_coupons"] queryOrderedByChild:@"user_id"] queryEqualToValue:user.uid] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-        BOOL captured = NO;
         if((unsigned long)snapshot.childrenCount > 0){
-            NSLog(@">0 %@", snapshot.children);
-            for(FIRDataSnapshot *offer in snapshot.children) {
-                NSLog(@">0 %@ -- %@", currentAvailableOffer.key, offer.value[@"offer_id"]);
-                if([currentAvailableOffer.key isEqualToString:offer.value[@"offer_id"]] && !captured){
-                    captured = YES;
-                    [self finishGetUserCoupons:offer];
+            //Firebase returns an array of coupons, Loop through it
+            for(FIRDataSnapshot *coupon in snapshot.children) {
+                //Check if offer id of this coupon is equal to key of the current available offer
+                if([currentAvailableOffer.key isEqualToString:coupon.value[@"offer_id"]]){
+                    NSLog(@"User already has coupon for the current offer: %@ -- %@", currentAvailableOffer.key, coupon.value[@"offer_id"]);
+                    userCapturedCoupon = coupon;
+                    break;
                 }
-                
             }
+            [self finishGetShopperCoupons:userCapturedCoupon];
         }else{
-            [self finishGetUserCoupons:nil];
+            [self finishGetShopperCoupons:nil];
         }
     } withCancelBlock:^(NSError * _Nonnull error) {
-        [self finishGetUserCoupons:nil];
+        [self finishGetShopperCoupons:nil];
     }];
 }
 
--(void)finishGetUserCoupons:(FIRDataSnapshot *)coupon
+-(void)finishGetShopperCoupons:(FIRDataSnapshot *)coupon
 {
     [self hideLoadingView];
     if(coupon){
@@ -264,7 +271,7 @@
     NSDictionary *childUpdates = @{[@"/captured_coupons/" stringByAppendingString:AddedCouponID]: capturedOffer};
 
     [ref updateChildValues:childUpdates];
-    [self getUserCoupons];
+    [self getShopperCoupons];
     //Status label text
     self.messageLabel.text = @"";
 }

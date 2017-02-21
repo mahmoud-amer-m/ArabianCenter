@@ -24,6 +24,7 @@
     UIImage *couponImage;
     
     FIRDataSnapshot *currentAvailableOffer;
+    FIRDataSnapshot *userCapturedCoupon;
     BOOL userAlreadyCaptured;
     
     NSString *AddedCouponID;
