@@ -38,6 +38,8 @@
 "alert_no_offers_message" = "لا يوجد عروض متاحة حاليا";
 "alert_share_to_claim_title" = "شارك للحصول على العرض";
 "alert_share_to_claim_message" = "برجاء مشاركة القسيمة على تويتر للحصول على العرض";
+"alert_no_captured_coupons_title" = "لا يوجد قسائم";
+"alert_no_captured_coupons_message" = "برجاء تصوير القسيمة أولا";
 
 
 /*My Coupons Controller*/

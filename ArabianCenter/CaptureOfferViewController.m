@@ -206,32 +206,37 @@
 
 - (IBAction)tweet:(UIButton *)sender
 {
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
-    {
-        SLComposeViewController *tweetSheet = [SLComposeViewController
-                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
-        [tweetSheet setInitialText:@"Great offer from The Arabian Center #The_Arabian_Center "];
-        [tweetSheet addImage:couponImage];
-        [self presentViewController:tweetSheet animated:YES completion:nil];
-        //Tweet completion handler to update coupon status in database
-        tweetSheet.completionHandler = ^(SLComposeViewControllerResult result)
+    if(userCapturedCoupon){
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
         {
-            switch (result)
+            SLComposeViewController *tweetSheet = [SLComposeViewController
+                                                   composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [tweetSheet setInitialText:@"Great offer from The Arabian Center #The_Arabian_Center "];
+            [tweetSheet addImage:couponImage];
+            [self presentViewController:tweetSheet animated:YES completion:nil];
+            //Tweet completion handler to update coupon status in database
+            tweetSheet.completionHandler = ^(SLComposeViewControllerResult result)
             {
-                case SLComposeViewControllerResultCancelled:
-                    NSLog(@"tweet cancelled");
-                    break;
-                case SLComposeViewControllerResultDone:
-                    NSLog(@"tweet completed");
-                    
-                    [self tweetSuccessful];
-                    break;
-                    
-                default:
-                    break;
-            }
-        };
+                switch (result)
+                {
+                    case SLComposeViewControllerResultCancelled:
+                        NSLog(@"tweet cancelled");
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        NSLog(@"tweet completed");
+                        
+                        [self tweetSuccessful];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            };
+        }
+    }else{
+        [self showAlert:NSLocalizedString(@"alert_no_captured_coupons_title", @"message") andMessage:NSLocalizedString(@"alert_no_captured_coupons_message", @"title")];
     }
+    
 }
 
 -(void)tweetSuccessful

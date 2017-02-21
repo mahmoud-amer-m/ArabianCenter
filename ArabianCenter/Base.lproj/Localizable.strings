@@ -39,6 +39,8 @@
 "alert_no_offers_message" = "No available offers for now";
 "alert_share_to_claim_title" = "Share To Claim";
 "alert_share_to_claim_message" = "Please tweet the coupon to claim your offer";
+"alert_no_captured_coupons_title" = "No coupons to tweet";
+"alert_no_captured_coupons_message" = "Pleasem capture a coupon first";
 
 /*My Coupons Controller*/
 "page_title" = "My Coupons";

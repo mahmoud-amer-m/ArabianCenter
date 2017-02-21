@@ -49,3 +49,15 @@
 
 /* Class = "UIButton"; normalTitle = "Sign in"; ObjectID = "zNa-Wf-WQP"; */
 "zNa-Wf-WQP.normalTitle" = "تسجيل دخول";
+
+/* Class = "UIButton"; normalTitle = "My Coupons"; ObjectID = "Kkf-cy-As4"; */
+"Kkf-cy-As4.normalTitle" = "قسائم المتسوق";
+
+/* Class = "UILabel"; text = "My Captured Coupons"; ObjectID = "Mqz-e8-AaD"; */
+"Mqz-e8-AaD.text" = "قسائم المتسوق";
+
+/* Class = "UIButton"; normalTitle = "Back"; ObjectID = "Cx5-je-pp0"; */
+"Cx5-je-pp0.normalTitle" = "رجوع";
+
+
+
