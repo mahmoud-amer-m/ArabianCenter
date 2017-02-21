@@ -136,6 +136,7 @@
 {
     [self hideLoadingView];
     if(coupon){
+        AddedCouponID = coupon.key;
         //Shopper already captured a coupon for this offer before
         userAlreadyCaptured = YES;
         [self.capturedCouponLoadingIndicator startAnimating];
@@ -155,8 +156,8 @@
                 NSLog(@"error while downloading image - %@", error.localizedDescription);
             } else {
                 // Data for the image is returned
-                UIImage *couponImg = [UIImage imageWithData:data];
-                self.couponImgView.image = couponImg;
+                couponImage = [UIImage imageWithData:data];
+                self.couponImgView.image = couponImage;
             }
             [self.capturedCouponLoadingIndicator stopAnimating];
         }];
