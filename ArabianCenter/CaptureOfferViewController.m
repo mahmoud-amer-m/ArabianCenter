@@ -58,6 +58,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Get current available offer
 -(void)getCurrentOffer
 {
     //Get the current offer (the offer that has status equals "1" and remaining coupons more than zero)
@@ -93,7 +94,11 @@
     }];
     
 }
-//Finish Getting current available offer
+
+/*
+ After getting offers, we should check if there's an available offer now. And then tell the shopper whether there's or not
+ Parameters: offer -- represents current available offer -- if nil, No available offers now
+ */
 -(void)finishGetCurrentOfferWithStatus:(FIRDataSnapshot *)offer
 {
     if(offer){
@@ -110,11 +115,12 @@
     }
 }
 
-//Hide loadingView
+/* Hide loadingView */
 -(void)hideLoadingView
 {
     [self.loadingView setHidden:YES];
 }
+
 #pragma mark - Get User Coupons
 -(void)getShopperCoupons
 {
@@ -139,6 +145,10 @@
     }];
 }
 
+/*
+ After getting shopper coupons, We should get the current offer coupon image and hide loading view
+ Parameters: coupon -- represents shopper coupon of the current available offer -- if nil, shopper hasn't capture the current offer yet!
+ */
 -(void)finishGetShopperCoupons:(FIRDataSnapshot *)coupon
 {
     [self hideLoadingView];
@@ -181,6 +191,7 @@
     }
 }
 
+/* Capture offer button press action */
 - (IBAction)captureOfferAction:(UIButton *)sender {
     if(currentAvailableOffer){
         if(!userAlreadyCaptured){
@@ -200,19 +211,24 @@
     
 }
 
+/* Back button action */
 - (IBAction)backAction:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+/* Tweet button action */
 - (IBAction)tweet:(UIButton *)sender
 {
+    //If user captured the current available offer
     if(userCapturedCoupon){
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
         {
             SLComposeViewController *tweetSheet = [SLComposeViewController
                                                    composeViewControllerForServiceType:SLServiceTypeTwitter];
             [tweetSheet setInitialText:@"Great offer from The Arabian Center #The_Arabian_Center "];
-            [tweetSheet addImage:couponImage];
+            //If image, add to tweet
+            if(couponImage)
+                [tweetSheet addImage:couponImage];
             [self presentViewController:tweetSheet animated:YES completion:nil];
             //Tweet completion handler to update coupon status in database
             tweetSheet.completionHandler = ^(SLComposeViewControllerResult result)
@@ -224,7 +240,7 @@
                         break;
                     case SLComposeViewControllerResultDone:
                         NSLog(@"tweet completed");
-                        
+                        //If tweeted successfully, call the function that updates database and show status to shopper
                         [self tweetSuccessful];
                         break;
                         
@@ -239,6 +255,7 @@
     
 }
 
+/* After tweeting, show status to shopper and update shopper coupon in database */
 -(void)tweetSuccessful
 {
     NSLog(@"AddedCouponID : %@ ", AddedCouponID);
@@ -249,10 +266,14 @@
 }
 #pragma mark - Update offer
 
-
+/*
+ Function that's called after uploading image
+ It updates the offer remainig coupons count and status in database
+ It adds user coupon to his coupons in database
+ */
 -(void) updateDatabase
 {
-    //Update the offer remaining number -1
+    //Update the offer remaining coupons number -1
     NSLog(@"offer : %@", currentAvailableOffer.key);
     int remaining = [currentAvailableOffer.value[@"remaining"] intValue];
     
@@ -261,6 +282,7 @@
     if(remaining == 1)
             [[[[ref child:@"Offers"] child:currentAvailableOffer.key] child:@"status"] setValue:@"0"];
     
+    //Decrement remaining coupons
     remaining --;
     NSNumber *numRemaining = [NSNumber numberWithInt:remaining];
     [[[[ref child:@"Offers"] child:currentAvailableOffer.key] child:@"remaining"] setValue:numRemaining];
@@ -281,30 +303,36 @@
     self.messageLabel.text = @"";
 }
 
+/*
+ Function that upload captured coupon image to server
+ Parameters: capturedImage - representes the image captured by the shopper
+ */
 -(void)saveImage:(UIImage *)capturedImage{
-    FIRStorage *storage = [FIRStorage storage];
-    FIRStorageReference *storageRef = [storage reference];
-    NSData *imageData = UIImageJPEGRepresentation(capturedImage, 1.0);
-    
-    // Create a reference to the file you want to upload
-    FIRStorageReference *riversRef = [storageRef child:[NSString stringWithFormat:@"%@/%@.png", user.uid,currentAvailableOffer.key]];
-    
-    
-    // Upload the file to the path "images/rivers.jpg"
-    FIRStorageUploadTask *uploadTask = [riversRef putData:imageData
-                                                 metadata:nil
-                                               completion:^(FIRStorageMetadata *metadata,
-                                                            NSError *error) {
-                                                   if (error != nil) {
-                                                       NSLog(@"Error, Upload failed");
-                                                   } else {
-                                                       NSLog(@"uploaded : %@", metadata.contentType);
-                                                       //Update database
-                                                       [self updateDatabase];
-                                                   }
-                                               }];
-    
-    [self showAlert:NSLocalizedString(@"alert_share_to_claim_title", @"share 2 claim") andMessage:NSLocalizedString(@"alert_share_to_claim_message", @"share 2 claim")];
+    if(capturedImage){
+        FIRStorage *storage = [FIRStorage storage];
+        FIRStorageReference *storageRef = [storage reference];
+        NSData *imageData = UIImageJPEGRepresentation(capturedImage, 1.0);
+        
+        // Create a reference to the file you want to upload
+        FIRStorageReference *riversRef = [storageRef child:[NSString stringWithFormat:@"%@/%@.png", user.uid,currentAvailableOffer.key]];
+        
+        
+        // Upload the file to the path "images/rivers.jpg"
+        FIRStorageUploadTask *uploadTask = [riversRef putData:imageData
+                                                     metadata:nil
+                                                   completion:^(FIRStorageMetadata *metadata,
+                                                                NSError *error) {
+                                                       if (error != nil) {
+                                                           NSLog(@"Error, Upload failed");
+                                                       } else {
+                                                           NSLog(@"uploaded : %@", metadata.contentType);
+                                                           //Update database
+                                                           [self updateDatabase];
+                                                       }
+                                                   }];
+        
+        [self showAlert:NSLocalizedString(@"alert_share_to_claim_title", @"share 2 claim") andMessage:NSLocalizedString(@"alert_share_to_claim_message", @"share 2 claim")];
+    }
 }
 #pragma mark - Camera Delegate Methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
