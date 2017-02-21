@@ -31,7 +31,6 @@
     
     //Logged in user
     user = [FIRAuth auth].currentUser;
-//    [[MyManager sharedManager] getUserCoupons:user.uid];
     
     //If running from simulatr, Show warning
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -66,22 +65,42 @@
         // Get user value
         //Status label text
         self.messageLabel.text = @"";
-        for(FIRDataSnapshot *offer in snapshot.children) {
-            if(([offer.value[@"status"] intValue] == 1) && !([[offer.value[@"remaining"] stringValue] isEqualToString:@"0"])){
-                NSLog(@"there's an available offer - %@ - %d - %@ - %@", offer.value[@"status"], [offer.value[@"remaining"] intValue], offer.value[@"remaining"], offer.key);
-                currentAvailableOffer = offer;
-                //Status label text
-                self.messageLabel.text = NSLocalizedString(@"status_label_loading_shopper_coupon", @"getting shopper coupons");
-                [self getUserCoupons];
+        if((unsigned long)snapshot.childrenCount > 0){
+            for(FIRDataSnapshot *offer in snapshot.children) {
+                if(([offer.value[@"status"] intValue] == 1) && !([[offer.value[@"remaining"] stringValue] isEqualToString:@"0"])){
+                    NSLog(@"there's an available offer - %@ - %d - %@ - %@", offer.value[@"status"], [offer.value[@"remaining"] intValue], offer.value[@"remaining"], offer.key);
+                    [self finishGetCurrentOfferWithStatus:offer];
+                }
             }
+            if(!currentAvailableOffer){
+                [self finishGetCurrentOfferWithStatus:nil];
+            }
+        }else{
+            [self finishGetCurrentOfferWithStatus:nil];
         }
         
+        
     } withCancelBlock:^(NSError * _Nonnull error) {
-        [self hideLoadingView];
+        [self finishGetCurrentOfferWithStatus:nil];
         NSLog(@"error %@", error.localizedDescription);
     }];
     
 }
+//Finish Getting current available offer
+-(void)finishGetCurrentOfferWithStatus:(FIRDataSnapshot *)offer
+{
+    if(offer){
+        currentAvailableOffer = offer;
+        //Status label text
+        self.messageLabel.text = NSLocalizedString(@"status_label_loading_shopper_coupon", @"getting shopper coupons");
+        [self getUserCoupons];
+    }else{
+        //Status label text
+        self.messageLabel.text = NSLocalizedString(@"status_label_no_current_offers", @"getting shopper coupons");
+        [self hideLoadingView];
+    }
+}
+
 //Hide loadingView
 -(void)hideLoadingView
 {
@@ -92,57 +111,65 @@
 {
     //Get the current offer (the offer that has status equals "1")
     [[[[ref child:@"captured_coupons"] queryOrderedByChild:@"user_id"] queryEqualToValue:user.uid] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-        NSString *status = 0;
+
         if((unsigned long)snapshot.childrenCount > 0){
-            userAlreadyCaptured = YES;
-            NSLog(@"taken");
-            //Shopper already captured a coupon for this offer before
-            userAlreadyCaptured = YES;
-            [self.capturedCouponLoadingIndicator startAnimating];
-            
+            NSLog(@">0 %@", snapshot.children);
             for(FIRDataSnapshot *offer in snapshot.children) {
-                //Show current offer coupon image of the logged in user
-                // Points to the root reference
+                NSLog(@">0 %@ -- %@", currentAvailableOffer.key, offer.value[@"offer_id"]);
+                if([currentAvailableOffer.key isEqualToString:offer.value[@"offer_id"]]){
+                    [self finishGetUserCoupons:offer];
+                }else{
+                    [self finishGetUserCoupons:nil];
+                }
                 
-                FIRStorageReference *storageRef = [[FIRStorage storage] reference];
-                // Points to "images"
-                NSString *fileName = [NSString stringWithFormat:@"%@/%@.png",user.uid, currentAvailableOffer.key];
-                
-                FIRStorageReference *islandRef = [storageRef child:fileName];
-                
-                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                [islandRef dataWithMaxSize:1 * 1024 * 1024 completion:^(NSData *data, NSError *error){
-                    if (error != nil) {
-                        NSLog(@"error while downloading image - %@", error.localizedDescription);
-                    } else {
-                        // Data for the image is returned
-                        UIImage *couponImg = [UIImage imageWithData:data];
-                        self.couponImgView.image = couponImg;
-                    }
-                    [self.capturedCouponLoadingIndicator stopAnimating];
-                }];
-                //User coupon Status
-                status = offer.value[@"status"];
-                //Status label text
-                if([status isEqualToString:@"0"])
-                    self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_no_tweet", @"please tweet");
-                else
-                    self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
             }
         }else{
-            userAlreadyCaptured = NO;
-            self.captureBTN.enabled = YES;
-            self.messageLabel.text = NSLocalizedString(@"status_label_coupon_not_captured", @"please capture");
-            NSLog(@"no");
+            [self finishGetUserCoupons:nil];
         }
-        
-        //Hide loading View
-        [self hideLoadingView];
     } withCancelBlock:^(NSError * _Nonnull error) {
-        NSLog(@"error %@", error.localizedDescription);
-        //Hide loading View
-        [self hideLoadingView];
+        [self finishGetUserCoupons:nil];
     }];
+}
+
+-(void)finishGetUserCoupons:(FIRDataSnapshot *)coupon
+{
+    if(coupon){
+        //Shopper already captured a coupon for this offer before
+        userAlreadyCaptured = YES;
+        [self.capturedCouponLoadingIndicator startAnimating];
+        
+        //Show current offer coupon image of the logged in user
+        // Points to the root reference
+        
+        FIRStorageReference *storageRef = [[FIRStorage storage] reference];
+        // Points to "images"
+        NSString *fileName = [NSString stringWithFormat:@"%@/%@.png",user.uid, currentAvailableOffer.key];
+        
+        FIRStorageReference *islandRef = [storageRef child:fileName];
+        
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        [islandRef dataWithMaxSize:1 * 1024 * 1024 completion:^(NSData *data, NSError *error){
+            if (error != nil) {
+                NSLog(@"error while downloading image - %@", error.localizedDescription);
+            } else {
+                // Data for the image is returned
+                UIImage *couponImg = [UIImage imageWithData:data];
+                self.couponImgView.image = couponImg;
+            }
+            [self.capturedCouponLoadingIndicator stopAnimating];
+        }];
+        //Status label text
+        if([coupon.value[@"status"] isEqualToString:@"0"])
+            self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_no_tweet", @"please tweet");
+        else
+            self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
+    }else{
+        [self hideLoadingView];
+        userAlreadyCaptured = NO;
+        self.captureBTN.enabled = YES;
+        self.messageLabel.text = NSLocalizedString(@"status_label_coupon_not_captured", @"please capture");
+        NSLog(@"no");
+    }
 }
 
 - (IBAction)captureOfferAction:(UIButton *)sender {

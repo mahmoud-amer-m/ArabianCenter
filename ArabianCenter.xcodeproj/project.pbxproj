@@ -23,6 +23,9 @@
 		5286C4991E579C1800D86535 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5286C4981E579C1800D86535 /* Social.framework */; };
 		5286C49B1E579C5D00D86535 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5286C49A1E579C5D00D86535 /* Bolts.framework */; };
 		528D29591E58FF2200BC2E0A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 528D295B1E58FF2200BC2E0A /* Localizable.strings */; };
+		529735391E5C0A5900BF1439 /* ShopperCouponsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 529735381E5C0A5900BF1439 /* ShopperCouponsViewController.m */; };
+		5297353D1E5C15B800BF1439 /* couponCustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5297353B1E5C15B800BF1439 /* couponCustomCellTableViewCell.m */; };
+		5297353E1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5297353C1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +54,11 @@
 		528D29561E58FD3100BC2E0A /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		528D295A1E58FF2200BC2E0A /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		528D295C1E58FF2E00BC2E0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		529735371E5C0A5900BF1439 /* ShopperCouponsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopperCouponsViewController.h; sourceTree = "<group>"; };
+		529735381E5C0A5900BF1439 /* ShopperCouponsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopperCouponsViewController.m; sourceTree = "<group>"; };
+		5297353A1E5C15B800BF1439 /* couponCustomCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = couponCustomCellTableViewCell.h; sourceTree = "<group>"; };
+		5297353B1E5C15B800BF1439 /* couponCustomCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = couponCustomCellTableViewCell.m; sourceTree = "<group>"; };
+		5297353C1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = couponCustomCellTableViewCell.xib; sourceTree = "<group>"; };
 		5FE6EB656500BFA98471B1CC /* Pods-ArabianCenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.debug.xcconfig"; sourceTree = "<group>"; };
 		7078BFE0DB3F16B166EB688B /* libPods-ArabianCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ArabianCenter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F02764D0844607FB3DFA3CF1 /* Pods-ArabianCenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.release.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.release.xcconfig"; sourceTree = "<group>"; };
@@ -106,6 +114,7 @@
 				528404B51E570FED001B8524 /* Sign In & Register */,
 				528404BC1E571030001B8524 /* Home */,
 				528404C71E5740EC001B8524 /* Capture Offer */,
+				529735361E5C0A3900BF1439 /* Shopper Coupons */,
 				528404A51E570E43001B8524 /* Main.storyboard */,
 				528404A81E570E43001B8524 /* Assets.xcassets */,
 				528404AA1E570E43001B8524 /* LaunchScreen.storyboard */,
@@ -161,6 +170,18 @@
 				528404C91E574106001B8524 /* CaptureOfferViewController.m */,
 			);
 			name = "Capture Offer";
+			sourceTree = "<group>";
+		};
+		529735361E5C0A3900BF1439 /* Shopper Coupons */ = {
+			isa = PBXGroup;
+			children = (
+				529735371E5C0A5900BF1439 /* ShopperCouponsViewController.h */,
+				529735381E5C0A5900BF1439 /* ShopperCouponsViewController.m */,
+				5297353A1E5C15B800BF1439 /* couponCustomCellTableViewCell.h */,
+				5297353B1E5C15B800BF1439 /* couponCustomCellTableViewCell.m */,
+				5297353C1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib */,
+			);
+			name = "Shopper Coupons";
 			sourceTree = "<group>";
 		};
 		AFAF10C9B2647F39A0B10969 /* Frameworks */ = {
@@ -239,6 +260,7 @@
 			files = (
 				528404AC1E570E43001B8524 /* LaunchScreen.storyboard in Resources */,
 				528D29591E58FF2200BC2E0A /* Localizable.strings in Resources */,
+				5297353E1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib in Resources */,
 				528404BF1E571295001B8524 /* loginBackground.png in Resources */,
 				528404B41E570EBF001B8524 /* GoogleService-Info.plist in Resources */,
 				528404A91E570E43001B8524 /* Assets.xcassets in Resources */,
@@ -301,9 +323,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529735391E5C0A5900BF1439 /* ShopperCouponsViewController.m in Sources */,
 				528404CA1E574106001B8524 /* CaptureOfferViewController.m in Sources */,
 				528404BB1E571019001B8524 /* RegisterViewController.m in Sources */,
 				528404B81E571009001B8524 /* SignInViewController.m in Sources */,
+				5297353D1E5C15B800BF1439 /* couponCustomCellTableViewCell.m in Sources */,
 				528404A11E570E43001B8524 /* AppDelegate.m in Sources */,
 				5284049E1E570E43001B8524 /* main.m in Sources */,
 				528404C61E572F21001B8524 /* HomeViewController.m in Sources */,

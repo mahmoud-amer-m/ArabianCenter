@@ -30,6 +30,7 @@
 "status_label_coupon_ready_tweeted" = "لديك قسيمة جاهزة للتحصيل";
 "status_label_coupon_not_captured" = "أسرع و صور قسيمتك";
 "status_label_coupon_just_captured" = "تم تصوير القسيمة، برجاء الانتظار";
+"status_label_no_current_offers" = "لا يوجد عروض حالية";
 
 "alert_captured_before_title" = "تم تصوير القسيمة من قبل";
 "alert_captured_before_message" = "لقد قمت بتصوير القسيمة سابقا";
@@ -38,3 +39,8 @@
 "alert_share_to_claim_title" = "شارك للحصول على العرض";
 "alert_share_to_claim_message" = "برجاء مشاركة القسيمة على تويتر للحصول على العرض";
 
+
+/*My Coupons Controller*/
+"page_title" = "قسائم المتسوق";
+"ready_to_claim_status" = "الكوبون جاهز للتحصيل";
+"waiting_tweer_status" = "شارك بتويتر لتحصيل العرض";

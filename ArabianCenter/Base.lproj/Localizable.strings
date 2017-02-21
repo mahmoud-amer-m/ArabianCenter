@@ -31,6 +31,7 @@
 "status_label_coupon_ready_tweeted" = "You have a coupon for the current offer, Ready to claim";
 "status_label_coupon_not_captured" = "harry up, capture your copoun";
 "status_label_coupon_just_captured" = "Coupon is here, Please wait!";
+"status_label_no_current_offers" = "No Available Offers";
 
 "alert_captured_before_title" = "Coupon captured before";
 "alert_captured_before_message" = "You captured this offer before";
@@ -38,3 +39,8 @@
 "alert_no_offers_message" = "No available offers for now";
 "alert_share_to_claim_title" = "Share To Claim";
 "alert_share_to_claim_message" = "Please tweet the coupon to claim your offer";
+
+/*My Coupons Controller*/
+"page_title" = "My Coupons";
+"ready_to_claim_status" = "Ready to claim";
+"waiting_tweer_status" = "Tweet to claim";
