@@ -65,14 +65,16 @@
         // Get user value
         //Status label text
         self.messageLabel.text = @"";
+        BOOL available = NO;
         if((unsigned long)snapshot.childrenCount > 0){
             for(FIRDataSnapshot *offer in snapshot.children) {
                 if(([offer.value[@"status"] intValue] == 1) && !([[offer.value[@"remaining"] stringValue] isEqualToString:@"0"])){
                     NSLog(@"there's an available offer - %@ - %d - %@ - %@", offer.value[@"status"], [offer.value[@"remaining"] intValue], offer.value[@"remaining"], offer.key);
+                    available = YES;
                     [self finishGetCurrentOfferWithStatus:offer];
                 }
             }
-            if(!currentAvailableOffer){
+            if(!available){
                 [self finishGetCurrentOfferWithStatus:nil];
             }
         }else{
@@ -111,15 +113,14 @@
 {
     //Get the current offer (the offer that has status equals "1")
     [[[[ref child:@"captured_coupons"] queryOrderedByChild:@"user_id"] queryEqualToValue:user.uid] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-
+        BOOL captured = NO;
         if((unsigned long)snapshot.childrenCount > 0){
             NSLog(@">0 %@", snapshot.children);
             for(FIRDataSnapshot *offer in snapshot.children) {
                 NSLog(@">0 %@ -- %@", currentAvailableOffer.key, offer.value[@"offer_id"]);
-                if([currentAvailableOffer.key isEqualToString:offer.value[@"offer_id"]]){
+                if([currentAvailableOffer.key isEqualToString:offer.value[@"offer_id"]] && !captured){
+                    captured = YES;
                     [self finishGetUserCoupons:offer];
-                }else{
-                    [self finishGetUserCoupons:nil];
                 }
                 
             }
@@ -133,6 +134,7 @@
 
 -(void)finishGetUserCoupons:(FIRDataSnapshot *)coupon
 {
+    [self hideLoadingView];
     if(coupon){
         //Shopper already captured a coupon for this offer before
         userAlreadyCaptured = YES;
@@ -164,7 +166,6 @@
         else
             self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
     }else{
-        [self hideLoadingView];
         userAlreadyCaptured = NO;
         self.captureBTN.enabled = YES;
         self.messageLabel.text = NSLocalizedString(@"status_label_coupon_not_captured", @"please capture");
