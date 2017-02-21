@@ -16,8 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+    internetReachability = [Reachability reachabilityForInternetConnection];
+
     //User Location Work
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -42,8 +42,7 @@
     userAlreadyCaptured = NO;
     currentAvailableOffer = nil;
     userCapturedCoupon =nil;
-    //Call the method that git the current available offer
-    [self getCurrentOffer];
+    
     
 }
 
@@ -51,6 +50,11 @@
 {
     [super viewDidAppear:animated];
     
+    //Call the method that git the current available offer
+    if(!((long)internetReachability.currentReachabilityStatus == 0))
+        [self getCurrentOffer];
+    else
+        [self showAlert:@"Connection Problem" andMessage:@"Please connect to internet"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,8 +65,9 @@
 #pragma mark - Get current available offer
 -(void)getCurrentOffer
 {
+    [self.loadingView setHidden:NO];
     //Get the current offer (the offer that has status equals "1" and remaining coupons more than zero)
-    [[[[ref child:@"Offers"] queryOrderedByChild:@"status"] queryEqualToValue:@"1"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+    [[[[ref child:@"Offers"] queryOrderedByChild:@"status"] queryEqualToValue:[NSNumber numberWithInt:1]] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         // Get user value
         //Status label text
         self.messageLabel.text = @"";
@@ -72,7 +77,9 @@
             for(FIRDataSnapshot *offer in snapshot.children) {
                 NSLog(@"loop - %@", offer.key);
                 //Check if this offer has remaining coupons
-                if(!([[offer.value[@"remaining"] stringValue] isEqualToString:@"0"])){
+                NSLog(@"num - %d - num %d", [(NSNumber *)offer.value[@"remaining"] intValue], [[NSNumber numberWithInt:0] intValue]);
+
+                if(!([(NSNumber *)offer.value[@"remaining"] intValue] == [[NSNumber numberWithInt:0] intValue])){
                     NSLog(@"available offer key: %@", offer.key);
                     currentAvailableOffer = offer;
                     
@@ -179,7 +186,7 @@
             [self.capturedCouponLoadingIndicator stopAnimating];
         }];
         //Status label text
-        if([coupon.value[@"status"] isEqualToString:@"0"])
+        if([coupon.value[@"status"] intValue] == [[NSNumber numberWithInt:0] intValue])
             self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_no_tweet", @"please tweet");
         else
             self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
@@ -262,7 +269,7 @@
     //Status message
     self.messageLabel.text = NSLocalizedString(@"status_label_coupon_ready_tweeted", @"tweeted");
     //Change coupon status to 1 (Means already shared on social media)
-    [[[[ref child:@"captured_coupons"] child:AddedCouponID] child:@"status"] setValue:@"1"];
+    [[[[ref child:@"captured_coupons"] child:AddedCouponID] child:@"status"] setValue:[NSNumber numberWithInt:1]];
 }
 #pragma mark - Update offer
 
@@ -280,7 +287,7 @@
     //If last coupon, Change offer status to 0 (Expired)
     NSLog(@"captured_valid : %d", remaining);
     if(remaining == 1)
-            [[[[ref child:@"Offers"] child:currentAvailableOffer.key] child:@"status"] setValue:@"0"];
+            [[[[ref child:@"Offers"] child:currentAvailableOffer.key] child:@"status"] setValue:[NSNumber numberWithInt:0]];
     
     //Decrement remaining coupons
     remaining --;
@@ -292,7 +299,7 @@
     AddedCouponID = [[ref child:@"captured_coupons"] childByAutoId].key;
 
     NSDictionary *capturedOffer = @{@"user_id": user.uid,
-                                    @"status": @"0",
+                                    @"status": [NSNumber numberWithInt:0],
                                     @"offer_id": currentAvailableOffer.key,
                                     @"location":[NSString stringWithFormat:@"%.8f,%.8f", currentLocation.coordinate.latitude, currentLocation.coordinate.longitude]};
     NSDictionary *childUpdates = @{[@"/captured_coupons/" stringByAppendingString:AddedCouponID]: capturedOffer};

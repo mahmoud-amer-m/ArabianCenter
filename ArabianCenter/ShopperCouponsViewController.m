@@ -16,6 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    internetReachability = [Reachability reachabilityForInternetConnection];
+    
     //Firebase Reference
     if(!ref)
         ref = [[FIRDatabase database] reference];
@@ -26,7 +28,17 @@
     if(!userCoupons)
         userCoupons = [[NSMutableArray alloc] init];
     
-    [self getUserCoupons];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    //Call the method that git the current available offer
+    if(!((long)internetReachability.currentReachabilityStatus == 0))
+        [self getUserCoupons];
+    else
+        [self showAlert:@"Connection Problem" andMessage:@"Please connect to internet"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,6 +48,7 @@
 #pragma mark - Get User Coupons
 -(void)getUserCoupons
 {
+    [self.loadingView setHidden:NO];
     //Get the current offer (the offer that has status equals "1")
     [[[[ref child:@"captured_coupons"] queryOrderedByChild:@"user_id"] queryEqualToValue:user.uid] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         NSLog(@"-- %@", snapshot.children);
@@ -75,7 +88,6 @@
     }
     FIRDataSnapshot *offer = [userCoupons objectAtIndex:indexPath.row];
     cell.offerTitle.text = offer.value[@"offer_id"];
-    cell.couponStatusLabel.text = offer.value[@"status"];
     int status = [offer.value[@"status"] intValue];
     switch (status) {
         case 0:
@@ -104,5 +116,18 @@
 
 - (IBAction)backAction:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)showAlert:(NSString *)title andMessage:(NSString *)message{
+    if(!([title isEqualToString:@""]) && !([message isEqualToString:@""])){
+        UIAlertController *myAlertView = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *doneAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                 
+                                                             }];
+        [myAlertView addAction:doneAction];
+        [self presentViewController:myAlertView animated:YES completion:nil];
+    }
+    
 }
 @end

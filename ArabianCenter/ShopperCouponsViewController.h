@@ -11,6 +11,7 @@
 @import FirebaseAuth;
 
 #import "couponCustomCellTableViewCell.h"
+#import "Reachability.h"
 
 @interface ShopperCouponsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
@@ -20,6 +21,8 @@
     NSMutableArray *userCoupons;
     
     IBOutlet couponCustomCellTableViewCell *resultCell;
+    
+    Reachability *internetReachability;
 }
 @property (weak, nonatomic) IBOutlet UITableView *couponsTableView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;

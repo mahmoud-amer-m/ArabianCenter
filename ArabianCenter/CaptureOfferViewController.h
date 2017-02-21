@@ -14,6 +14,9 @@
 @import Firebase;
 @import FirebaseDatabase;
 
+#import "Reachability.h"
+
+
 @interface CaptureOfferViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate> {
     FIRUser *user;
     FIRDatabaseReference *ref;
@@ -28,6 +31,9 @@
     BOOL userAlreadyCaptured;
     
     NSString *AddedCouponID;
+    
+    Reachability *internetReachability;
+    
 }
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 

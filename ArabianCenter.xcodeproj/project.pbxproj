@@ -27,6 +27,7 @@
 		5297353D1E5C15B800BF1439 /* couponCustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5297353B1E5C15B800BF1439 /* couponCustomCellTableViewCell.m */; };
 		5297353E1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5297353C1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib */; };
 		529735461E5C2EB000BF1439 /* Grey-Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 529735451E5C2EB000BF1439 /* Grey-Button.png */; };
+		529735501E5C5D3B00BF1439 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5297354F1E5C5D3B00BF1439 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,8 @@
 		5297353B1E5C15B800BF1439 /* couponCustomCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = couponCustomCellTableViewCell.m; sourceTree = "<group>"; };
 		5297353C1E5C15B800BF1439 /* couponCustomCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = couponCustomCellTableViewCell.xib; sourceTree = "<group>"; };
 		529735451E5C2EB000BF1439 /* Grey-Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Grey-Button.png"; sourceTree = "<group>"; };
+		5297354E1E5C5D3B00BF1439 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		5297354F1E5C5D3B00BF1439 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		5FE6EB656500BFA98471B1CC /* Pods-ArabianCenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.debug.xcconfig"; sourceTree = "<group>"; };
 		7078BFE0DB3F16B166EB688B /* libPods-ArabianCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ArabianCenter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F02764D0844607FB3DFA3CF1 /* Pods-ArabianCenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArabianCenter.release.xcconfig"; path = "Pods/Target Support Files/Pods-ArabianCenter/Pods-ArabianCenter.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,6 +116,8 @@
 			children = (
 				5284049F1E570E43001B8524 /* AppDelegate.h */,
 				528404A01E570E43001B8524 /* AppDelegate.m */,
+				5297354E1E5C5D3B00BF1439 /* Reachability.h */,
+				5297354F1E5C5D3B00BF1439 /* Reachability.m */,
 				528404B51E570FED001B8524 /* Sign In & Register */,
 				528404BC1E571030001B8524 /* Home */,
 				528404C71E5740EC001B8524 /* Capture Offer */,
@@ -334,6 +339,7 @@
 				5297353D1E5C15B800BF1439 /* couponCustomCellTableViewCell.m in Sources */,
 				528404A11E570E43001B8524 /* AppDelegate.m in Sources */,
 				5284049E1E570E43001B8524 /* main.m in Sources */,
+				529735501E5C5D3B00BF1439 /* Reachability.m in Sources */,
 				528404C61E572F21001B8524 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
